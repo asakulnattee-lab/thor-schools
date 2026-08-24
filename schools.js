@@ -3,19 +3,21 @@ const DECISION_META = {
   targetDate: '31 ส.ค. 2569',
   homeLabel: 'Baan Klang Muang The Edition Pinklao–Borom 2',
   morningDeparture: '06:15',
-  returnDeparture: '14:35',
-  note: 'เวลา 14:35 ใช้เป็น standardized return-route test เพื่อเทียบเส้นทางเท่านั้น ไม่ใช่เวลาเลิกเรียนจริงของทั้งสองโรงเรียน'
+  returnDepartureLabel: 'เพลินพัฒนา 15:30 • อำนวยศิลป์ 14:30',
+  note: 'ขาไปใช้ออกจากบ้าน 06:15 เหมือนกันทั้งสองโรงเรียน ส่วนขากลับใช้เวลาเลิกเรียนตามรายงานของแต่ละโรงเรียน: เพลินพัฒนา 15:30 และอำนวยศิลป์ 14:30'
 };
 
 const DECISION_CRITERIA = [
-  { key:'learningFit', label:'ความเหมาะสมกับรูปแบบการเรียนรู้ของลูก', weight:25, evidence:'สังเกตการเรียนรู้จริง การมีส่วนร่วม การตอบสนองต่อโครงสร้าง/การลงมือทำ' },
-  { key:'wellbeing', label:'สุขภาวะ อารมณ์ และความรู้สึกปลอดภัย', weight:20, evidence:'ความวิตกกังวล การปรับตัว ความไวต่อสิ่งเร้า การขอความช่วยเหลือ' },
-  { key:'languageAcademic', label:'ภาษาและความพร้อมทางวิชาการ', weight:15, evidence:'ไทย อังกฤษ literacy/numeracy และ cognitive load' },
-  { key:'commuteSleep', label:'การเดินทาง การนอน และพลังงาน', weight:15, evidence:'เวลาเดินทางจริง อารมณ์หลังเดินทาง การตื่นเช้า และพลังงานปลายวัน' },
-  { key:'homePhilosophy', label:'ความสอดคล้องระหว่างบ้านกับปรัชญาโรงเรียน', weight:10, evidence:'วินัย การบ้าน การแข่งขัน ความสำเร็จ และการสื่อสารกับครอบครัว' },
-  { key:'individualSupport', label:'ความสัมพันธ์และการสนับสนุนรายบุคคล', weight:5, evidence:'ขนาดห้อง ครู learning support counselling และการสื่อสารกับผู้ปกครอง' },
-  { key:'interests', label:'ดนตรี กีฬา ศิลปะ และความสนใจเฉพาะ', weight:5, evidence:'ดูจากการเข้าถึงจริง ความถี่ คุณภาพครู และความสนใจของเด็ก' },
-  { key:'longTerm', label:'ความยืดหยุ่นระยะยาว', weight:5, evidence:'เส้นทางมัธยม การย้ายระบบ คุณวุฒิ และมหาวิทยาลัย' }
+  { key:'learningFit', label:'ความเหมาะสมกับรูปแบบการเรียนรู้ของลูก', weight:10, evidence:'สังเกตการเรียนรู้จริง การมีส่วนร่วม และการตอบสนองต่อโครงสร้าง/การลงมือทำ' },
+  { key:'languageAcademic', label:'ภาษาและความพร้อมทางวิชาการ', weight:10, evidence:'ไทย อังกฤษ literacy/numeracy ความท้าทายทางวิชาการ และ cognitive load' },
+  { key:'commuteSleep', label:'การเดินทาง การนอน และพลังงาน', weight:10, evidence:'เวลาเดินทางจริง การตื่นเช้า พลังงานปลายวัน และผลต่อกิจวัตรครอบครัว' },
+  { key:'homePhilosophy', label:'ความสอดคล้องระหว่างบ้านกับปรัชญาโรงเรียน', weight:10, evidence:'วินัย การบ้าน การแข่งขัน ความสำเร็จ และแนวทางการสื่อสารกับครอบครัว' },
+  { key:'individualSupport', label:'ความสัมพันธ์และการสนับสนุนรายบุคคล', weight:10, evidence:'ขนาดห้อง ครู learning support counselling การช่วยเด็กที่ตามไม่ทัน/เรียนเร็ว และการสื่อสารกับผู้ปกครอง' },
+  { key:'interests', label:'ดนตรี กีฬา ศิลปะ และความสนใจเฉพาะ', weight:10, evidence:'การเข้าถึงจริง ความถี่ คุณภาพครู โอกาสต่อยอด และความสนใจของเด็ก' },
+  { key:'longTerm', label:'ความยืดหยุ่นระยะยาว', weight:10, evidence:'เส้นทางมัธยม การย้ายระบบ คุณวุฒิ การเตรียมมหาวิทยาลัย และทางเลือกในอนาคต' },
+  { key:'bullyingViolence', label:'การจัดการ Bullying / การใช้ความรุนแรงในโรงเรียน', weight:10, evidence:'นโยบาย bullying/cyberbullying วิธีรับแจ้งเหตุ การตอบสนองต่อความรุนแรงหรือความขัดแย้ง การคุ้มครองเด็ก และการสื่อสารกับผู้ปกครอง' },
+  { key:'schoolSecurity', label:'ระบบรักษาความปลอดภัยของโรงเรียน', weight:10, evidence:'การควบคุมเข้า–ออก ระบบรับ–ส่งเด็ก การแยกเด็กเล็ก/เด็กโต บุคลากรรักษาความปลอดภัย ขั้นตอนฉุกเฉิน และนโยบาย safeguarding ที่ตรวจสอบได้' },
+  { key:'trackRecord', label:'Track Record ของโรงเรียน', weight:10, evidence:'ประวัติการดำเนินงานและมาตรฐานที่ตรวจสอบได้ ความต่อเนื่องของระบบ ผลลัพธ์นักเรียน accreditation/recognition และหลักฐานผลลัพธ์ย้อนหลังที่เกี่ยวข้อง' }
 ];
 
 const TRIAL_CRITERIA = [
@@ -47,15 +49,18 @@ const SCHOOLS = [
     assessment:'ปีการศึกษาแบ่งเป็นรอบประมาณ 10 สัปดาห์เพื่อสรุปบทเรียนและติดตามพัฒนาการถี่ขึ้น',
     musicSports:'มี “ดนตรีชีวิต”, กีฬา และ Survival Swimming ในประถมต้น; พื้นที่สีเขียวเอื้อต่อกิจกรรมกลางแจ้ง',
     wellbeing:'มีแนวคิด well-being พื้นที่ปลอดภัย ความสัมพันธ์ และการเคารพความแตกต่าง แต่ข้อมูลสาธารณะเรื่อง counsellor/safeguarding ระดับประถมยังละเอียดน้อยกว่า ANS',
+    bullyingViolence:'รายงานแนะนำให้ขอรายละเอียดโดยตรงเรื่อง bullying, cyberbullying, การเปิดเผยเหตุความรุนแรง และการจัดการความขัดแย้ง เพราะข้อมูลสาธารณะระดับประถมยังไม่ละเอียดพอสำหรับเทียบขั้นตอนแบบตัวต่อตัว',
+    security:'รายงานยังไม่มีข้อมูลเชิงระบบเพียงพอสำหรับเทียบ access control, จุดรับ–ส่ง, การแยกเด็กเล็ก/เด็กโต หรือมาตรการรักษาความปลอดภัยแบบตัวเลข จึงควรตรวจสอบหน้างานและขอนโยบายจากโรงเรียน',
+    trackRecord:'มีผลลัพธ์การศึกษาต่อจริงทั้งหลักสูตรไทย หลักสูตรนานาชาติ และต่างประเทศ โดยข้อมูลรุ่นปีการศึกษา 2567 ที่รายงานอ้างเป็น snapshot ระหว่างกระบวนการรับสมัคร ไม่ใช่ผลสุดท้ายทั้งรุ่น',
     longTerm:'มีเส้นทาง TCAS และผลลัพธ์หลักสูตรนานาชาติ/ต่างประเทศจริง โดยเน้นตัวตน ความสนใจ portfolio และทักษะการเรียนรู้ มากกว่าคุณวุฒิ Cambridge แบบ ANS',
     schoolSchedule:{ start:'07:30', finish:'15:30' },
     commute:{
       morningRange:[15,30],
       returnRange:[20,40],
       morningDeparture:'06:15',
-      returnDeparture:'14:35',
+      returnDeparture:'15:30',
       routeContext:'บ้านและโรงเรียนอยู่ใน corridor ถนนสวนผักฝั่งตะวันตกของกรุงเทพฯ เดียวกัน',
-      caveat:'ช่วงเวลาเดินทางเป็น planning range จากรายงาน ไม่ใช่ navigation traffic estimate เฉพาะเวลา 06:15/14:35'
+      caveat:'ขากลับคำนวณจากเวลาเลิกเรียน 15:30 ตามรายงาน โดยช่วงเวลาเดินทางเป็น planning range ไม่ใช่ live/historical traffic estimate'
     },
     structuralAdvantages:[
       'การเรียนรู้ผ่านธรรมชาติ ประสบการณ์ โครงงาน และชีวิตจริง',
@@ -95,15 +100,18 @@ const SCHOOLS = [
     assessment:'โครงสร้างหลักสูตรอังกฤษต่อยอดสู่ Cambridge IGCSE, AS Level และ A Level ในระดับมัธยม',
     musicSports:'ดนตรีไทยและสากลตั้งแต่อนุบาลถึง Year 13 มี orchestra/ensemble และบทเรียนเครื่องดนตรีเพิ่มเติม; กีฬาและทีมแข่งขัน U9–U19 ใน GBAC/FOBISIA',
     wellbeing:'มี counsellor ประจำโรงเรียน 2 คน, pastoral team, mindfulness และ Designated Safeguarding Leads ตามข้อมูลสาธารณะของโรงเรียน',
+    bullyingViolence:'ข้อมูลสาธารณะระบุ counsellor, pastoral team และ Designated Safeguarding Leads ชัดเจน แต่รายงานยังแนะนำให้ถามขั้นตอนจริงเรื่อง bullying, cyberbullying, การเปิดเผยเหตุความรุนแรง และการจัดการความขัดแย้งโดยใช้คำถามเดียวกันทั้งสองโรงเรียน',
+    security:'มีโครงสร้าง safeguarding ที่เปิดเผยต่อสาธารณะชัดกว่า แต่รายงานยังไม่มีรายละเอียดเพียงพอสำหรับเทียบ access control, จุดรับ–ส่ง, CCTV หรือขั้นตอนฉุกเฉินแบบตัวต่อตัว จึงควรตรวจสอบกับโรงเรียนโดยตรง',
+    trackRecord:'มี Thinking School accreditation ตั้งแต่ 2013 และ Advanced Accreditation ใน 2017 ตามข้อมูลโรงเรียน รวมทั้ง CIS ตั้งแต่ 2021, FOBISIA ตั้งแต่ 2022, COBIS ตั้งแต่ 2024 และมีข้อมูล university destinations หลายระบบ',
     longTerm:'มีระบบ university guidance ตั้งแต่ Year 8, TCAS, Common App, UCAS, international pathway, specialist advisers และเส้นทาง Cambridge',
     schoolSchedule:{ start:'07:30', finish:'14:30' },
     commute:{
       morningRange:[35,45],
       returnRange:[30,45],
       morningDeparture:'06:15',
-      returnDeparture:'14:35',
+      returnDeparture:'14:30',
       routeContext:'เดินทางจากตลิ่งชันเข้าสู่พื้นที่เมืองชั้นในราชเทวี เส้นทางซับซ้อนและพึ่งพาสภาพจราจรมากกว่า',
-      caveat:'ช่วงเวลาเดินทางเป็น planning range จากรายงาน ไม่ใช่ navigation traffic estimate เฉพาะเวลา 06:15/14:35'
+      caveat:'ขากลับคำนวณจากเวลาเลิกเรียน 14:30 ตามรายงาน โดยช่วงเวลาเดินทางเป็น planning range ไม่ใช่ live/historical traffic estimate'
     },
     structuralAdvantages:[
       'การใช้ภาษาอังกฤษอย่างเป็นระบบในชีวิตประจำวัน',

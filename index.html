@@ -33,7 +33,7 @@
     <div class="chips">
       <span class="chip strong">เป้าหมายตัดสินใจ: <span id="targetDate"></span></span>
       <span class="chip">ออกจากบ้าน: <b id="morningDeparture"></b></span>
-      <span class="chip">Return-route test: <b id="returnDeparture"></b></span>
+      <span class="chip">ออกจากโรงเรียน: <b id="returnDeparture"></b></span>
       <span class="chip">คะแนน/บันทึกเก็บเฉพาะใน browser นี้</span>
     </div>
     <div class="banner"><b>หลักสำคัญ:</b> ข้อมูลเชิงสถาบันบอกจุดแข็งของแต่ละโรงเรียนได้ แต่ “ความเหมาะสมกับลูก” ยังไม่ควรสรุปจนกว่าจะสังเกตในสถานการณ์จริงและประเมินผล Trial Day อย่างเป็นระบบ</div>
@@ -45,13 +45,13 @@
   </section>
 
   <section class="section panel commute">
-    <div class="section-title"><div><h2>2. Commute comparison</h2><p>ใช้เวลาออกเดียวกันเพื่อเทียบ route burden</p></div></div>
+    <div class="section-title"><div><h2>2. Commute comparison</h2><p>ขาไปออกจากบ้าน 06:15 เหมือนกัน • ขากลับใช้เวลาเลิกเรียนจริงของแต่ละโรงเรียน</p></div></div>
     <div class="banner" id="commuteNote"></div>
     <div id="commuteCards" class="commute-grid"></div>
   </section>
 
   <section class="section panel score">
-    <div class="section-title"><div><h2>3. Weighted decision scorecard</h2><p>น้ำหนักตามกรอบที่รายงานเสนอ รวม 100% — ให้คะแนน 1–5 หลังมีข้อมูลจริง</p></div><button class="btn" id="resetScores">Reset scores</button></div>
+    <div class="section-title"><div><h2>3. Weighted decision scorecard</h2><p>10 เกณฑ์ น้ำหนักเท่ากันข้อละ 10% รวม 100% — ให้คะแนน 1–5 หลังมีข้อมูลจริง</p></div><button class="btn" id="resetScores">Reset scores</button></div>
     <table>
       <thead><tr><th>เกณฑ์</th><th>น้ำหนัก</th><th>สิ่งที่ควรใช้ตัดสิน</th><th>เพลินพัฒนา</th><th>อำนวยศิลป์</th></tr></thead>
       <tbody id="scoreBody"></tbody>
@@ -60,7 +60,7 @@
       <div class="total-card" id="total-plearnpattana"><div class="soft">เพลินพัฒนา</div><div class="n"><span id="score-plearnpattana">—</span><small>/100</small></div></div>
       <div class="total-card" id="total-amnuaysilpa"><div class="soft">อำนวยศิลป์</div><div class="n"><span id="score-amnuaysilpa">—</span><small>/100</small></div></div>
     </div>
-    <p class="caveat">คะแนนไม่ได้เป็น “คำตอบอัตโนมัติ” แต่ช่วยทำให้เหตุผลและ trade-off โปร่งใส โดยเฉพาะเมื่อผู้ประเมินมากกว่าหนึ่งคนใช้เกณฑ์เดียวกัน</p>
+    <p class="caveat">คะแนนไม่ได้เป็น “คำตอบอัตโนมัติ” แต่ช่วยทำให้เหตุผลและ trade-off โปร่งใส โดยทุกเกณฑ์มีน้ำหนักเท่ากัน 10% และควรให้คะแนนจากหลักฐาน/การสังเกตชุดเดียวกันทั้งสองโรงเรียน</p>
   </section>
 
   <section class="section panel trial">
@@ -74,7 +74,7 @@
     <div class="summary-grid">
       <div class="summary-card"><h3>เพลินพัฒนามีแนวโน้มเหมาะกว่าเมื่อ…</h3><div class="soft">เด็กเรียนรู้ดีที่สุดผ่านการลงมือทำ ประสบการณ์และธรรมชาติ ให้คุณค่ากับภาษา/วัฒนธรรมไทยสูง หรือได้รับผลชัดเจนจากการตื่นเช้าและการเดินทางไกล</div></div>
       <div class="summary-card"><h3>อำนวยศิลป์มีแนวโน้มเหมาะกว่าเมื่อ…</h3><div class="soft">เด็กพร้อมต่อ bilingual immersion ชอบโครงสร้างและการอธิบายเหตุผล ครอบครัวให้ความสำคัญกับ counselling/safeguarding ที่ชัด และต้องการ Cambridge/international pathway</div></div>
-      <div class="summary-card"><h3>ข้อมูลที่ยังควรเก็บ</h3><div class="soft">Trial Day จริง, commute log, ตัวอย่างงาน literacy/numeracy, class size/teacher ratio, learning support, อาหาร, ค่าใช้จ่ายกิจกรรมเพิ่ม และการตอบสนองของเด็กหลังกลับบ้าน</div></div>
+      <div class="summary-card"><h3>ข้อมูลที่ยังควรเก็บ</h3><div class="soft">Trial Day จริง, commute log, ตัวอย่างงาน literacy/numeracy, class size/teacher ratio, learning support, bullying/violence procedure, ระบบรักษาความปลอดภัย, track record ที่ตรวจสอบได้, อาหาร และค่าใช้จ่ายกิจกรรมเพิ่ม</div></div>
     </div>
   </section>
 
@@ -84,7 +84,7 @@
 <script src="schools.js"></script>
 <script>
 const $ = s => document.querySelector(s);
-const storageKey = 'thor-school-decision-v1';
+const storageKey = 'thor-school-decision-v2';
 const state = JSON.parse(localStorage.getItem(storageKey) || '{"scores":{},"trial":{}}');
 const save = () => localStorage.setItem(storageKey, JSON.stringify(state));
 const esc = s => String(s ?? '').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
@@ -93,8 +93,8 @@ const mapUrl = q => 'https://www.google.com/maps/search/?api=1&query='+encodeURI
 
 $('#targetDate').textContent = DECISION_META.targetDate;
 $('#morningDeparture').textContent = DECISION_META.morningDeparture;
-$('#returnDeparture').textContent = DECISION_META.returnDeparture;
-$('#commuteNote').innerHTML = '<b>Assumption:</b> ออกจากบ้าน '+esc(DECISION_META.morningDeparture)+' และใช้ '+esc(DECISION_META.returnDeparture)+' เป็นเวลาออกจากโรงเรียนเพื่อทดสอบเส้นทางแบบมาตรฐานทั้งสองแห่ง. '+esc(DECISION_META.note);
+$('#returnDeparture').textContent = DECISION_META.returnDepartureLabel;
+$('#commuteNote').innerHTML = '<b>Commute setup:</b> '+esc(DECISION_META.note);
 
 function renderSchool(s){
   return `<article class="panel school">
@@ -107,7 +107,10 @@ function renderSchool(s){
       <div class="k">ภาษา</div><div class="v">${esc(s.language)}</div>
       <div class="k">พื้นที่</div><div class="v">${esc(s.campus)}</div>
       <div class="k">ดนตรี/กีฬา</div><div class="v">${esc(s.musicSports)}</div>
-      <div class="k">Wellbeing</div><div class="v">${esc(s.wellbeing)}</div>
+      <div class="k">Wellbeing / Support</div><div class="v">${esc(s.wellbeing)}</div>
+      <div class="k">Bullying / Violence</div><div class="v">${esc(s.bullyingViolence)}</div>
+      <div class="k">School Security</div><div class="v">${esc(s.security)}</div>
+      <div class="k">Track Record</div><div class="v">${esc(s.trackRecord)}</div>
       <div class="k">ระยะยาว</div><div class="v">${esc(s.longTerm)}</div>
       <div class="k">เวลาเรียนตามรายงาน</div><div class="v">${esc(s.schoolSchedule.start)}–${esc(s.schoolSchedule.finish)}</div>
     </div>
@@ -118,7 +121,7 @@ $('#schoolCards').innerHTML = SCHOOLS.map(renderSchool).join('');
 
 function renderCommute(s){
   const [mn0,mn1]=s.commute.morningRange,[rt0,rt1]=s.commute.returnRange;
-  return `<div class="metric"><div class="soft">${esc(s.shortName)}</div><b>เช้า • ออก ${esc(s.commute.morningDeparture)}</b><div class="big">${mn0}–${mn1} นาที</div><div>Arrival window: <b>${addMin(s.commute.morningDeparture,mn0)}–${addMin(s.commute.morningDeparture,mn1)}</b></div><div class="route-note">${esc(s.commute.routeContext)}</div><hr style="border:0;border-top:1px solid var(--line);margin:15px 0"><b>ขากลับ test • ออก ${esc(s.commute.returnDeparture)}</b><div class="big">${rt0}–${rt1} นาที</div><div>Arrival window: <b>${addMin(s.commute.returnDeparture,rt0)}–${addMin(s.commute.returnDeparture,rt1)}</b></div><div class="caveat">${esc(s.commute.caveat)}</div></div>`;
+  return `<div class="metric"><div class="soft">${esc(s.shortName)}</div><b>เช้า • ออก ${esc(s.commute.morningDeparture)}</b><div class="big">${mn0}–${mn1} นาที</div><div>Arrival window: <b>${addMin(s.commute.morningDeparture,mn0)}–${addMin(s.commute.morningDeparture,mn1)}</b></div><div class="route-note">${esc(s.commute.routeContext)}</div><hr style="border:0;border-top:1px solid var(--line);margin:15px 0"><b>ขากลับ • ออกจากโรงเรียน ${esc(s.commute.returnDeparture)}</b><div class="big">${rt0}–${rt1} นาที</div><div>Arrival window: <b>${addMin(s.commute.returnDeparture,rt0)}–${addMin(s.commute.returnDeparture,rt1)}</b></div><div class="caveat">${esc(s.commute.caveat)}</div></div>`;
 }
 $('#commuteCards').innerHTML = SCHOOLS.map(renderCommute).join('');
 
