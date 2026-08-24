@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>School Decision Dashboard — เพลินพัฒนา vs อำนวยศิลป์</title>
+  <meta name="description" content="Decision dashboard สำหรับเปรียบเทียบโรงเรียนเพลินพัฒนาและอำนวยศิลป์ พร้อม Trial Day scorecard และ commute assumptions">
+  <style>
+    :root{
+      --bg:#f5f7fb;--surface:#fff;--text:#172033;--muted:#687387;--line:#dde3ed;
+      --blue:#2d5be3;--blue-soft:#edf2ff;--green:#1d8f68;--green-soft:#eaf8f2;
+      --amber:#b56b00;--amber-soft:#fff6e6;--red:#b84040;--shadow:0 12px 32px rgba(25,35,60,.08);
+    }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
+    a{color:var(--blue);text-decoration:none}.wrap{max-width:1240px;margin:auto;padding:24px}.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+    header{padding:26px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}h1{font-size:clamp(27px,4vw,44px);line-height:1.1;margin:6px 0 10px}.sub{color:var(--muted);max-width:920px}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.chip{border-radius:999px;padding:7px 11px;background:#f1f4f9;border:1px solid var(--line);font-size:13px}.chip.strong{background:var(--blue-soft);color:var(--blue);font-weight:700}
+    .banner{margin-top:14px;padding:16px 18px;background:var(--amber-soft);border:1px solid #f2d9ab;border-radius:14px;color:#694614}.grid2{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}@media(min-width:860px){.grid2{grid-template-columns:1fr 1fr}}
+    .school{padding:22px}.school-head{display:flex;gap:14px;justify-content:space-between;align-items:flex-start}.school h2{margin:0;font-size:24px}.tagline{color:var(--muted);margin-top:5px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--text);padding:9px 12px;border-radius:10px;cursor:pointer;font-weight:700}.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .kv{display:grid;grid-template-columns:140px 1fr;gap:8px 12px;margin-top:18px}.k{color:var(--muted);font-weight:700}.v{min-width:0}.section{margin-top:16px}.section-title{display:flex;justify-content:space-between;gap:12px;align-items:end;margin:0 0 10px}.section-title h2{margin:0;font-size:22px}.section-title p{margin:0;color:var(--muted)}
+    .advantages{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.adv{padding:7px 10px;border-radius:10px;background:var(--green-soft);color:#11684b;border:1px solid #bfe7d8;font-size:13px}.cols{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px}@media(min-width:620px){.cols{grid-template-columns:1fr 1fr}}.box{border:1px solid var(--line);border-radius:14px;padding:14px}.box h3{margin:0 0 8px;font-size:15px}.box ul{margin:0;padding-left:20px}.box li{margin:6px 0}.pros h3{color:var(--green)}.cons h3{color:var(--red)}
+    .commute{padding:20px}.commute-grid{display:grid;grid-template-columns:1fr;gap:12px}@media(min-width:760px){.commute-grid{grid-template-columns:repeat(2,1fr)}}.metric{border:1px solid var(--line);border-radius:14px;padding:15px}.metric b{font-size:18px}.metric .big{font-size:30px;font-weight:900;line-height:1.15;margin:4px 0}.soft{color:var(--muted)}.caveat{font-size:12px;color:var(--muted);margin-top:8px}.route-note{margin-top:12px;padding:12px;border-radius:12px;background:#f7f9fc;border:1px dashed var(--line)}
+    .score{padding:20px;overflow:auto}table{width:100%;border-collapse:collapse;min-width:780px}th,td{padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}select,input[type="number"],input[type="text"],textarea{width:100%;border:1px solid #cfd7e3;border-radius:9px;padding:8px;background:#fff;color:var(--text)}select{min-width:86px}.weight{font-weight:900;color:var(--blue)}.score-total{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.total-card{padding:16px;border:1px solid var(--line);border-radius:14px}.total-card .n{font-size:34px;font-weight:900}.winner{border-color:#aac0ff;background:var(--blue-soft)}
+    .trial{padding:20px}.trial-row{display:grid;grid-template-columns:1fr;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}@media(min-width:760px){.trial-row{grid-template-columns:2.1fr .8fr .8fr 1.6fr;align-items:center}}.trial-head{font-size:12px;color:var(--muted);font-weight:800}.summary{padding:20px}.summary-grid{display:grid;grid-template-columns:1fr;gap:12px}@media(min-width:780px){.summary-grid{grid-template-columns:1fr 1fr 1fr}}.summary-card{padding:16px;border:1px solid var(--line);border-radius:14px}.summary-card h3{margin:0 0 7px}.footer{color:var(--muted);font-size:12px;padding:24px 4px 60px}.hidden{display:none}
+    @media(max-width:620px){.wrap{padding:12px}header,.school,.score,.trial,.commute,.summary{padding:16px}.kv{grid-template-columns:1fr}.school-head{flex-direction:column}.actions{width:100%}.actions .btn{flex:1}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="panel">
+    <div class="eyebrow">School Decision Dashboard</div>
+    <h1>เพลินพัฒนา vs อำนวยศิลป์</h1>
+    <div class="sub">เปรียบเทียบจากข้อมูลในรายงานวิเคราะห์เชิงลึก โดยแยก “คุณภาพเชิงระบบของโรงเรียน” ออกจาก “ความพอดีกับเด็กเป็นรายบุคคล” และใช้ Trial Day + commute จริงเป็นข้อมูลตัดสินใจเพิ่มเติม</div>
+    <div class="chips">
+      <span class="chip strong">เป้าหมายตัดสินใจ: <span id="targetDate"></span></span>
+      <span class="chip">ออกจากบ้าน: <b id="morningDeparture"></b></span>
+      <span class="chip">Return-route test: <b id="returnDeparture"></b></span>
+      <span class="chip">คะแนน/บันทึกเก็บเฉพาะใน browser นี้</span>
+    </div>
+    <div class="banner"><b>หลักสำคัญ:</b> ข้อมูลเชิงสถาบันบอกจุดแข็งของแต่ละโรงเรียนได้ แต่ “ความเหมาะสมกับลูก” ยังไม่ควรสรุปจนกว่าจะสังเกตในสถานการณ์จริงและประเมินผล Trial Day อย่างเป็นระบบ</div>
+  </header>
+
+  <section class="section">
+    <div class="section-title"><div><h2>1. School snapshot</h2><p>ข้อมูลที่มีหลักฐานในรายงานแนบ</p></div></div>
+    <div id="schoolCards" class="grid2"></div>
+  </section>
+
+  <section class="section panel commute">
+    <div class="section-title"><div><h2>2. Commute comparison</h2><p>ใช้เวลาออกเดียวกันเพื่อเทียบ route burden</p></div></div>
+    <div class="banner" id="commuteNote"></div>
+    <div id="commuteCards" class="commute-grid"></div>
+  </section>
+
+  <section class="section panel score">
+    <div class="section-title"><div><h2>3. Weighted decision scorecard</h2><p>น้ำหนักตามกรอบที่รายงานเสนอ รวม 100% — ให้คะแนน 1–5 หลังมีข้อมูลจริง</p></div><button class="btn" id="resetScores">Reset scores</button></div>
+    <table>
+      <thead><tr><th>เกณฑ์</th><th>น้ำหนัก</th><th>สิ่งที่ควรใช้ตัดสิน</th><th>เพลินพัฒนา</th><th>อำนวยศิลป์</th></tr></thead>
+      <tbody id="scoreBody"></tbody>
+    </table>
+    <div class="score-total">
+      <div class="total-card" id="total-plearnpattana"><div class="soft">เพลินพัฒนา</div><div class="n"><span id="score-plearnpattana">—</span><small>/100</small></div></div>
+      <div class="total-card" id="total-amnuaysilpa"><div class="soft">อำนวยศิลป์</div><div class="n"><span id="score-amnuaysilpa">—</span><small>/100</small></div></div>
+    </div>
+    <p class="caveat">คะแนนไม่ได้เป็น “คำตอบอัตโนมัติ” แต่ช่วยทำให้เหตุผลและ trade-off โปร่งใส โดยเฉพาะเมื่อผู้ประเมินมากกว่าหนึ่งคนใช้เกณฑ์เดียวกัน</p>
+  </section>
+
+  <section class="section panel trial">
+    <div class="section-title"><div><h2>4. Trial Day observation</h2><p>ใช้หัวข้อเดียวกันกับทั้งสองโรงเรียน • 1 = มีข้อกังวลมาก, 5 = เหมาะมาก</p></div><button class="btn" id="resetTrial">Reset Trial Day</button></div>
+    <div class="trial-row trial-head"><div>สิ่งที่สังเกต</div><div>เพลินพัฒนา</div><div>อำนวยศิลป์</div><div>หมายเหตุ</div></div>
+    <div id="trialRows"></div>
+  </section>
+
+  <section class="section panel summary">
+    <div class="section-title"><div><h2>5. Decision view</h2><p>ใช้เพื่อเตรียม discussion โดยไม่บังคับให้เด็กเป็นผู้ “เลือกข้าง”</p></div></div>
+    <div class="summary-grid">
+      <div class="summary-card"><h3>เพลินพัฒนามีแนวโน้มเหมาะกว่าเมื่อ…</h3><div class="soft">เด็กเรียนรู้ดีที่สุดผ่านการลงมือทำ ประสบการณ์และธรรมชาติ ให้คุณค่ากับภาษา/วัฒนธรรมไทยสูง หรือได้รับผลชัดเจนจากการตื่นเช้าและการเดินทางไกล</div></div>
+      <div class="summary-card"><h3>อำนวยศิลป์มีแนวโน้มเหมาะกว่าเมื่อ…</h3><div class="soft">เด็กพร้อมต่อ bilingual immersion ชอบโครงสร้างและการอธิบายเหตุผล ครอบครัวให้ความสำคัญกับ counselling/safeguarding ที่ชัด และต้องการ Cambridge/international pathway</div></div>
+      <div class="summary-card"><h3>ข้อมูลที่ยังควรเก็บ</h3><div class="soft">Trial Day จริง, commute log, ตัวอย่างงาน literacy/numeracy, class size/teacher ratio, learning support, อาหาร, ค่าใช้จ่ายกิจกรรมเพิ่ม และการตอบสนองของเด็กหลังกลับบ้าน</div></div>
+    </div>
+  </section>
+
+  <div class="footer">Source basis: รายงานวิเคราะห์เชิงลึกเพื่อประกอบการเลือกโรงเรียนระหว่างเพลินพัฒนาและอำนวยศิลป์ (ข้อมูลตรวจสอบถึง 4 ส.ค. 2569). ช่วงเวลาเดินทางเป็น planning range จากรายงาน ไม่ใช่ live/historical traffic API.</div>
+</div>
+
+<script src="schools.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const storageKey = 'thor-school-decision-v1';
+const state = JSON.parse(localStorage.getItem(storageKey) || '{"scores":{},"trial":{}}');
+const save = () => localStorage.setItem(storageKey, JSON.stringify(state));
+const esc = s => String(s ?? '').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const addMin = (hhmm, min) => { const [h,m]=hhmm.split(':').map(Number); const d=new Date(2000,0,1,h,m+min); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); };
+const mapUrl = q => 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+
+$('#targetDate').textContent = DECISION_META.targetDate;
+$('#morningDeparture').textContent = DECISION_META.morningDeparture;
+$('#returnDeparture').textContent = DECISION_META.returnDeparture;
+$('#commuteNote').innerHTML = '<b>Assumption:</b> ออกจากบ้าน '+esc(DECISION_META.morningDeparture)+' และใช้ '+esc(DECISION_META.returnDeparture)+' เป็นเวลาออกจากโรงเรียนเพื่อทดสอบเส้นทางแบบมาตรฐานทั้งสองแห่ง. '+esc(DECISION_META.note);
+
+function renderSchool(s){
+  return `<article class="panel school">
+    <div class="school-head"><div><h2>${esc(s.shortName)}</h2><div class="tagline">${esc(s.tagline)}</div></div><div class="actions"><button class="btn" onclick="window.open('${s.website}','_blank')">เว็บไซต์</button><button class="btn" onclick="window.open('${mapUrl(s.mapQuery)}','_blank')">แผนที่</button></div></div>
+    <div class="advantages">${s.structuralAdvantages.map(x=>`<span class="adv">${esc(x)}</span>`).join('')}</div>
+    <div class="kv">
+      <div class="k">ระบบ/หลักสูตร</div><div class="v">${esc(s.system)}</div>
+      <div class="k">แนวคิด</div><div class="v">${esc(s.philosophy)}</div>
+      <div class="k">การเรียนรู้</div><div class="v">${esc(s.curriculum)}</div>
+      <div class="k">ภาษา</div><div class="v">${esc(s.language)}</div>
+      <div class="k">พื้นที่</div><div class="v">${esc(s.campus)}</div>
+      <div class="k">ดนตรี/กีฬา</div><div class="v">${esc(s.musicSports)}</div>
+      <div class="k">Wellbeing</div><div class="v">${esc(s.wellbeing)}</div>
+      <div class="k">ระยะยาว</div><div class="v">${esc(s.longTerm)}</div>
+      <div class="k">เวลาเรียนตามรายงาน</div><div class="v">${esc(s.schoolSchedule.start)}–${esc(s.schoolSchedule.finish)}</div>
+    </div>
+    <div class="cols"><div class="box pros"><h3>ข้อได้เปรียบ / Pros</h3><ul>${s.pros.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div><div class="box cons"><h3>ข้อจำกัด / สิ่งที่ต้อง validate</h3><ul>${s.cons.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>
+  </article>`;
+}
+$('#schoolCards').innerHTML = SCHOOLS.map(renderSchool).join('');
+
+function renderCommute(s){
+  const [mn0,mn1]=s.commute.morningRange,[rt0,rt1]=s.commute.returnRange;
+  return `<div class="metric"><div class="soft">${esc(s.shortName)}</div><b>เช้า • ออก ${esc(s.commute.morningDeparture)}</b><div class="big">${mn0}–${mn1} นาที</div><div>Arrival window: <b>${addMin(s.commute.morningDeparture,mn0)}–${addMin(s.commute.morningDeparture,mn1)}</b></div><div class="route-note">${esc(s.commute.routeContext)}</div><hr style="border:0;border-top:1px solid var(--line);margin:15px 0"><b>ขากลับ test • ออก ${esc(s.commute.returnDeparture)}</b><div class="big">${rt0}–${rt1} นาที</div><div>Arrival window: <b>${addMin(s.commute.returnDeparture,rt0)}–${addMin(s.commute.returnDeparture,rt1)}</b></div><div class="caveat">${esc(s.commute.caveat)}</div></div>`;
+}
+$('#commuteCards').innerHTML = SCHOOLS.map(renderCommute).join('');
+
+function scoreSelect(schoolId,key){
+  const current = state.scores?.[schoolId]?.[key] ?? '';
+  return `<select data-score="${schoolId}" data-key="${key}"><option value="">—</option>${[1,2,3,4,5].map(n=>`<option value="${n}" ${String(current)===String(n)?'selected':''}>${n}</option>`).join('')}</select>`;
+}
+function renderScoreRows(){
+  $('#scoreBody').innerHTML = DECISION_CRITERIA.map(c=>`<tr><td><b>${esc(c.label)}</b></td><td class="weight">${c.weight}%</td><td class="soft">${esc(c.evidence)}</td><td>${scoreSelect('plearnpattana',c.key)}</td><td>${scoreSelect('amnuaysilpa',c.key)}</td></tr>`).join('');
+  document.querySelectorAll('[data-score]').forEach(el=>el.addEventListener('change',()=>{
+    const id=el.dataset.score,key=el.dataset.key; state.scores[id] ||= {}; state.scores[id][key]=el.value ? Number(el.value) : ''; save(); updateTotals();
+  }));
+}
+function calc(id){
+  let weighted=0, completed=0;
+  DECISION_CRITERIA.forEach(c=>{const v=Number(state.scores?.[id]?.[c.key]);if(v>=1&&v<=5){weighted += (v/5)*c.weight; completed += c.weight;}});
+  return completed===100 ? Math.round(weighted*10)/10 : null;
+}
+function updateTotals(){
+  const a=calc('plearnpattana'),b=calc('amnuaysilpa');
+  $('#score-plearnpattana').textContent=a??'—'; $('#score-amnuaysilpa').textContent=b??'—';
+  ['plearnpattana','amnuaysilpa'].forEach(id=>$('#total-'+id).classList.remove('winner'));
+  if(a!==null&&b!==null&&a!==b) $('#total-'+(a>b?'plearnpattana':'amnuaysilpa')).classList.add('winner');
+}
+renderScoreRows();updateTotals();
+$('#resetScores').onclick=()=>{state.scores={};save();renderScoreRows();updateTotals();};
+
+function trialSelect(idx,id){const v=state.trial?.[idx]?.[id]??'';return `<select data-trial="${idx}" data-school="${id}"><option value="">—</option>${[1,2,3,4,5].map(n=>`<option value="${n}" ${String(v)===String(n)?'selected':''}>${n}</option>`).join('')}</select>`;}
+function renderTrial(){
+  $('#trialRows').innerHTML=TRIAL_CRITERIA.map((label,i)=>`<div class="trial-row"><div>${i+1}. ${esc(label)}</div><div>${trialSelect(i,'plearnpattana')}</div><div>${trialSelect(i,'amnuaysilpa')}</div><div><input type="text" data-note="${i}" placeholder="บันทึกสิ่งที่เห็นจริง" value="${esc(state.trial?.[i]?.note??'')}"></div></div>`).join('');
+  document.querySelectorAll('[data-trial]').forEach(el=>el.onchange=()=>{const i=el.dataset.trial;state.trial[i]||={};state.trial[i][el.dataset.school]=el.value?Number(el.value):'';save();});
+  document.querySelectorAll('[data-note]').forEach(el=>el.oninput=()=>{const i=el.dataset.note;state.trial[i]||={};state.trial[i].note=el.value;save();});
+}
+renderTrial();
+$('#resetTrial').onclick=()=>{state.trial={};save();renderTrial();};
+</script>
+</body>
+</html>
