@@ -32,7 +32,7 @@ function quality(n,a){
 function autoCriterion(key,answers){
   const qs=QUESTIONNAIRE_CRITERIA_MAP[key]||[];if(!qs.length)return null;const vals=qs.map(n=>quality(n,answers[n]||'')),answered=vals.filter(Boolean);if(!answered.length)return null;const coverage=answered.length/qs.length,avg=answered.reduce((a,b)=>a+b,0)/answered.length;let v=1+4*(.55*coverage+.45*((avg-1)/4));const all=qs.map(n=>answers[n]||'').join(' ');if(/(ไม่มีข้อมูล|ไม่สะดวกเปิดเผย|ไม่มีระบบ|ไม่มีนโยบาย|ไม่ได้บันทึก|ไม่สามารถให้ข้อมูล)/i.test(all))v-=.5;return {score:Math.max(1,Math.min(5,Math.round(v))),reason:`ตอบ ${answered.length}/${qs.length} ข้อ • evidence quality ${avg.toFixed(1)}/5 • Q${qs.join(', Q')}`};
 }
-function commuteAuto(id){const s=SCHOOLS.find(x=>x.id===id),d=s.commute.morningMedian+s.commute.returnMedian;return {score:d<=25?5:d<=35?4:d<=45?3:d<=60?2:1,reason:`TomTom model median ไป-กลับ ${d.toFixed(2)} นาที/วัน`};}
+function commuteAuto(id){const s=SCHOOLS.find(x=>x.id===id),avg=(s.commute.morningMedian+s.commute.returnMedian)/2,total=s.commute.morningMedian+s.commute.returnMedian;const score=avg<=15?5:avg<=30?4:avg<=45?3:avg<=60?2:1;return {score,reason:`TomTom model median เฉลี่ย ${avg.toFixed(2)} นาที/เที่ยว • ไป-กลับ ${total.toFixed(2)} นาที/วัน`};}
 function eh(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 
 window.addEventListener('DOMContentLoaded',()=>{
